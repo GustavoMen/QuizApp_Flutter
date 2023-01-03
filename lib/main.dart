@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import './question.dart';
+import './answer.dart';
 
 void main() => runApp(QuizApp());
 
-class QuestionAppState extends State<QuizApp> {
-  int selectedQuestion = 0;
+class _QuestionAppState extends State<QuizApp> {
+  int _selectedQuestion = 0;
 
-  void reply() {
+  void _reply() {
     setState(() {
-      selectedQuestion++;
+      _selectedQuestion++;
     });
-
-    print('Pergunta Respondida');
-    print(selectedQuestion);
   }
 
   final List<String> questions = ['Pergunta 1', 'Pergunta Dois'];
@@ -27,24 +26,9 @@ class QuestionAppState extends State<QuizApp> {
           ),
           body: Column(
             children: <Widget>[
-              Text(questions[selectedQuestion]),
-              ElevatedButton(
-                child: const Text('Resposta 1'),
-                onPressed: reply,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      selectedQuestion == 0 ? Colors.blue : Colors.green,
-                  foregroundColor: Colors.white,
-                ),
-              ),
-              ElevatedButton(
-                child: const Text('Resposta 2'),
-                onPressed: reply,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                ),
-              )
+              Question(questions[_selectedQuestion]),
+              Answer('resposta um', _reply),
+              Answer('resposta dois', _reply)
             ],
           )),
     );
@@ -52,7 +36,7 @@ class QuestionAppState extends State<QuizApp> {
 }
 
 class QuizApp extends StatefulWidget {
-  QuestionAppState createState() {
-    return QuestionAppState();
+  _QuestionAppState createState() {
+    return _QuestionAppState();
   }
 }
