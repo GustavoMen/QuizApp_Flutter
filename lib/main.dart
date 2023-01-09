@@ -1,19 +1,53 @@
 import 'package:flutter/material.dart';
-import './question.dart';
-import './answer.dart';
+import './result.dart';
+import './questionary.dart';
 
 void main() => runApp(QuizApp());
 
 class _QuestionAppState extends State<QuizApp> {
   int _selectedQuestion = 0;
 
+  final List<Map<String, Object>> _questions = const [
+    {
+      "text": "Qual é sua cor favorita?",
+      "answers": [
+        {"text": "Preto", 'nota': 10},
+        {"text": "Vermelho", 'nota': 5},
+        {"text": "Verde", 'nota': 3},
+        {"text": "Branco", 'nota': 1},
+      ],
+    },
+    {
+      "text": "Qual é o seu animal favorito?",
+      "answers": [
+        {"text": "Cobra", "nota": 10},
+        {"text": "Coelho", "nota": 5},
+        {"text": "Elefante", "nota": 3},
+        {"text": "Leão", "nota": 1},
+      ],
+    },
+    {
+      "text": "Qual é o seu instrutor favorito?",
+      "answers": [
+        {"text": "Leo", "nota": 10},
+        {"text": "Gildo", "nota": 5},
+        {"text": "João", "nota": 3},
+        {"text": "Daiane", "nota": 1},
+      ],
+    },
+  ];
+
   void _reply() {
-    setState(() {
-      _selectedQuestion++;
-    });
+    if (hasAnswers) {
+      setState(() {
+        _selectedQuestion++;
+      });
+    }
   }
 
-  final List<String> questions = ['Pergunta 1', 'Pergunta Dois'];
+  bool get hasAnswers {
+    return _selectedQuestion < _questions.length;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +58,12 @@ class _QuestionAppState extends State<QuizApp> {
               "ola texto",
             ),
           ),
-          body: Column(
-            children: <Widget>[
-              Question(questions[_selectedQuestion]),
-              Answer('resposta um', _reply),
-              Answer('resposta dois', _reply)
-            ],
-          )),
+          body: hasAnswers
+              ? Questionary(
+                  selectedQuestion: _selectedQuestion,
+                  questions: _questions,
+                  reply: _reply)
+              : const Result("Parabens!")),
     );
   }
 }
