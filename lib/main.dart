@@ -6,6 +6,7 @@ void main() => runApp(QuizApp());
 
 class _QuestionAppState extends State<QuizApp> {
   int _selectedQuestion = 0;
+  int _allNotes = 0;
 
   final List<Map<String, Object>> _questions = const [
     {
@@ -37,12 +38,15 @@ class _QuestionAppState extends State<QuizApp> {
     },
   ];
 
-  void _reply() {
+  void _reply(int points) {
     if (hasAnswers) {
       setState(() {
         _selectedQuestion++;
+        _allNotes += points;
       });
     }
+
+    print(_allNotes);
   }
 
   bool get hasAnswers {
@@ -63,7 +67,7 @@ class _QuestionAppState extends State<QuizApp> {
                   selectedQuestion: _selectedQuestion,
                   questions: _questions,
                   reply: _reply)
-              : const Result("Parabens!")),
+              : Result("Parabens!", _allNotes)),
     );
   }
 }

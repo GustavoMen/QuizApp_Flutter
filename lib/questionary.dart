@@ -11,7 +11,7 @@ class Questionary extends StatelessWidget {
 
   final List<Map<String, Object>> questions;
   final int selectedQuestion;
-  final void Function() reply;
+  final void Function(int) reply;
 
   bool get hasAnswers {
     return selectedQuestion < questions.length;
@@ -25,9 +25,14 @@ class Questionary extends StatelessWidget {
         : [];
 
     return Column(
-      children: <Widget>[
-        Question(questions[selectedQuestion]['text'].toString()),
-        ...answer.map((ans) => Answer(ans['text'] as String, reply)).toList()
+      children: [
+        Question(questions[selectedQuestion]['text'] as String),
+        ...answer.map((ans) {
+          return Answer(
+            ans['text'] as String,
+            () => reply(ans['nota'] as int),
+          );
+        }).toList(),
       ],
     );
   }
